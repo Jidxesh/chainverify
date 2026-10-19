@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChainVerify — Document Verification</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=2">
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
+
+<!-- DB Status Bar -->
+<div class="db-status-bar" id="dbStatusBar" style="display:none">
+  <div class="db-spinner"></div>
+  <span id="dbStatusMsg">Initialising…</span>
+</div>
+
+<!-- ═══ LANDING ═══ -->
+<div id="landingPage" class="page active">
+  <div class="landing-inner" style="margin:auto;padding:40px 24px;">
+    <div class="logo-bar">
+      <svg class="logo-icon" viewBox="0 0 40 40" fill="none">
+        <rect x="2" y="2" width="16" height="16" rx="2" stroke="#00FFB2" stroke-width="1.5"/>
+        <rect x="22" y="2" width="16" height="16" rx="2" stroke="#3B82F6" stroke-width="1.5"/>
+        <rect x="2" y="22" width="16" height="16" rx="2" stroke="#3B82F6" stroke-width="1.5"/>
+        <rect x="22" y="22" width="16" height="16" rx="2" stroke="#00FFB2" stroke-width="1.5"/>
+        <path d="M18 10h4M10 18v4M30 18v4M18 30h4" stroke="#00FFB2" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span class="logo-name">Chain<span>Verify</span></span>
+      <span class="logo-tag">ETHEREUM MAINNET</span>
+    </div>
+    <div class="landing-hero">
+      <div class="landing-eyebrow">Immutable · Trustless · Decentralized</div>
+      <h1 class="landing-h1">Blockchain<br><span class="hi">Document</span><br>Verification</h1>
+      <p class="landing-p">Cryptographically anchor institutional documents to the Ethereum blockchain. Choose your access role to continue.</p>
+    </div>
+    <div class="role-cards">
+      <div class="role-card admin-card" onclick="goToLogin('admin')">
+        <div class="role-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M13 3L4 7v6c0 5 4.2 9.7 9 11 4.8-1.3 9-6 9-11V7L13 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 13l2.5 2.5L16.5 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="role-badge">SYSTEM ADMIN</span>
+        <div class="role-title">Administrator</div>
+        <div class="role-desc">Full system control. Manage institutes, approve document anchoring requests, and audit the entire blockchain ledger.</div>
+        <ul class="role-perms">
+          <li class="role-perm"><span class="perm-dot"></span>Approve / reject anchor requests</li>
+          <li class="role-perm"><span class="perm-dot"></span>Manage institute accounts</li>
+          <li class="role-perm"><span class="perm-dot"></span>Access full audit ledger</li>
+          <li class="role-perm"><span class="perm-dot"></span>Override &amp; revoke records</li>
+        </ul>
+        <div class="role-cta">
+          <span class="role-cta-text">Login as Admin</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M12 6l4 4-4 4" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="role-card institute-card" onclick="goToLogin('institute')">
+        <div class="role-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M3 22h20M5 22V10M21 22V10M13 3L3 10h20L13 3z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="9" y="15" width="8" height="7" rx="1" stroke="currentColor" stroke-width="1.6"/></svg>
+        </div>
+        <span class="role-badge">INSTITUTE / UNIVERSITY</span>
+        <div class="role-title">Institution</div>
+        <div class="role-desc">Upload and anchor academic or official documents. Submit requests for blockchain verification and track their approval status.</div>
+        <ul class="role-perms">
+          <li class="role-perm"><span class="perm-dot"></span>Upload &amp; hash documents</li>
+          <li class="role-perm"><span class="perm-dot"></span>Submit anchor requests</li>
+          <li class="role-perm"><span class="perm-dot"></span>Track approval status</li>
+          <li class="role-perm"><span class="perm-dot"></span>Verify issued documents</li>
+        </ul>
+        <div class="role-cta">
+          <span class="role-cta-text">Login as Institute</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M12 6l4 4-4 4" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Public Verification — full width -->
+    <div class="role-cards-bottom">
+      <div class="role-card public-card" onclick="goToPublic()">
+        <div class="public-card-inner">
+          <div class="public-card-left">
+            <div class="role-icon-wrap">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="11" stroke="currentColor" stroke-width="1.6"/><path d="M9 14l4 4 7-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14" cy="14" r="5.5" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3" opacity="0.4"/></svg>
+            </div>
+          </div>
+          <div class="public-card-right">
+            <span class="role-badge">NO LOGIN REQUIRED</span>
+            <div class="role-title" style="margin-bottom:8px;">Public Document Verification</div>
+            <div class="role-desc" style="margin-bottom:16px;">Anyone can verify the authenticity of a document — employers, students, government bodies. Upload a file or paste its SHA-256 hash to instantly check if it's anchored on the blockchain.</div>
+            <ul class="role-perms">
+              <li class="role-perm"><span class="perm-dot"></span>Verify by file upload or hash</li>
+              <li class="role-perm"><span class="perm-dot"></span>See issuing institution & recipient</li>
+              <li class="role-perm"><span class="perm-dot"></span>Zero account required</li>
+              <li class="role-perm"><span class="perm-dot"></span>Files never leave your device</li>
+            </ul>
+            <div class="role-cta">
+              <span class="role-cta-text">Verify a Document Now</span>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M12 6l4 4-4 4" stroke="#00FFB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="landing-note">SHA-256 hashing • Documents never leave your browser • Zero-trust verification</div>
+  </div>
+</div>
+
+<!-- ═══ LOGIN ═══ -->
+<div id="loginPage" class="page">
+  <div class="login-wrap" style="margin:auto;padding:40px 24px;">
+    <button class="back-btn" onclick="goBack()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      BACK TO ROLE SELECT
+    </button>
+    <div class="login-card" id="loginCard">
+      <div class="login-card-header">
+        <span class="login-role-badge" id="loginBadge"></span>
+        <div class="login-title" id="loginTitle"></div>
+        <div class="login-sub" id="loginSub"></div>
+      </div>
+      <div class="login-body">
+        <div class="login-error" id="loginError">Incorrect credentials. Please try again.</div>
+        <div class="form-group">
+          <label class="form-label">Username / ID</label>
+          <input class="form-input" id="loginUser" type="text" placeholder="Enter your username" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" id="loginPass" type="password" placeholder="••••••••">
+        </div>
+        <button class="btn-login" id="loginBtn" onclick="doLogin()">ACCESS SYSTEM</button>
+        <div class="login-hint" id="loginHint"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div id="dashPage" class="page">
+  <div class="dash-topbar">
+    <span class="dash-logo">Chain<span>Verify</span></span>
+    <div class="dash-divider"></div>
+    <span class="dash-role-pill" id="dashRolePill"></span>
+    <span class="dash-user" id="dashUser"></span>
+    <div class="dash-spacer"></div>
+    <button class="dash-logout" onclick="doLogout()">⎋ LOGOUT</button>
+  </div>
+  <div class="dash-body">
+    <div class="dash-sidebar" id="sidebar"></div>
+    <div class="dash-main" id="dashMain"></div>
+  </div>
+</div>
+
+<!-- ═══ PUBLIC VERIFY PAGE ═══ -->
+<div id="publicPage" class="page">
+  <div class="public-wrap" style="margin:auto; padding:40px 24px;">
+
+    <!-- Back btn -->
+    <button class="back-btn" onclick="showPage('landingPage')" style="margin-bottom:32px;">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      BACK TO HOME
+    </button>
+
+    <div class="public-hero">
+      <div class="public-eyebrow">Public Verification Portal</div>
+      <h1 class="public-h1">Is this document <span>genuine?</span></h1>
+      <p class="public-sub">Upload any document or paste its hash to check if it has been officially anchored to the blockchain by a registered institution. No account needed.</p>
+      <div class="trust-strip">
+        <div class="trust-item"><span class="trust-dot"></span>No login required</div>
+        <div class="trust-item"><span class="trust-dot"></span>Files never uploaded</div>
+        <div class="trust-item"><span class="trust-dot"></span>SHA-256 verified</div>
+        <div class="trust-item"><span class="trust-dot"></span>Ethereum mainnet</div>
+      </div>
+    </div>
+
+    <div class="pub-verify-card">
+      <!-- Tabs -->
+      <div class="pub-tabs">
+        <button class="pub-tab active" onclick="switchPubTab('file', this)">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:inline;vertical-align:-2px;margin-right:6px"><rect x="2" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 4.5h5M4.5 7h5M4.5 9.5h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Upload File
+        </button>
+        <button class="pub-tab" onclick="switchPubTab('hash', this)">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:inline;vertical-align:-2px;margin-right:6px"><path d="M2 4h10M2 10h10M5 1.5v11M9 1.5v11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Enter Hash
+        </button>
+      </div>
+
+      <div class="pub-card-body">
+        <!-- File upload panel -->
+        <div class="pub-panel active" id="pubFilePanel">
+          <div class="pub-upload-zone" id="pubUploadZone">
+            <input type="file" id="pubFileInput" style="display:none">
+            <div class="pub-upload-icon">
+              <svg viewBox="0 0 48 48" fill="none"><rect x="6" y="8" width="36" height="32" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M24 32V18M24 18L17 25M24 18l7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 40h20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.3"/></svg>
+            </div>
+            <div class="pub-upload-title">Drop your document here</div>
+            <div class="pub-upload-sub">PDF · DOCX · PNG · JPG · Any format — hashed locally, never sent</div>
+          </div>
+          <div class="pub-hash-preview" id="pubHashPreview">
+            <span class="pub-hash-label">SHA-256</span>
+            <span class="pub-hash-val" id="pubHashPreviewVal">—</span>
+          </div>
+          <button class="pub-verify-btn" id="pubFileVerifyBtn" onclick="pubVerify('file')" style="display:none">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 8l2.5 2.5L11 5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            VERIFY ON BLOCKCHAIN
+          </button>
+        </div>
+
+        <!-- Hash input panel -->
+        <div class="pub-panel" id="pubHashPanel">
+          <div class="pub-hash-input-wrap">
+            <svg class="pub-hash-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 12h12M5 1v14M11 1v14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <input class="pub-hash-input" id="pubHashInputField" type="text" placeholder="Paste SHA-256 hash here  e.g. 0x4a3f8b2c...">
+          </div>
+          <button class="pub-verify-btn" onclick="pubVerify('hash')">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 8l2.5 2.5L11 5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            VERIFY ON BLOCKCHAIN
+          </button>
+        </div>
+
+        <!-- Processing -->
+        <div class="pub-processing" id="pubProcessing">
+          <div class="pub-scan-anim">
+            <div class="scan-ring scan-ring-1"></div>
+            <div class="scan-ring scan-ring-2"></div>
+            <div class="scan-ring scan-ring-3"></div>
+            <div class="scan-core"></div>
+          </div>
+          <div class="pub-proc-label">Scanning Blockchain…</div>
+          <div class="pub-proc-step" id="pubProcStep">Connecting to Ethereum node</div>
+        </div>
+
+        <!-- Result -->
+        <div class="pub-result" id="pubResult">
+          <div class="pub-result-stamp">
+            <div class="pub-result-bigicon" id="pubResultIcon"></div>
+            <div class="pub-result-verdict" id="pubResultVerdict"></div>
+            <div class="pub-result-msg" id="pubResultMsg"></div>
+          </div>
+          <div class="pub-cert-divider"></div>
+          <div class="pub-cert-body" id="pubCertBody"></div>
+          <div class="pub-action-row">
+            <button class="pub-action-btn outline" onclick="pubReset()">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="display:inline;vertical-align:-1px;margin-right:5px"><path d="M1.5 6.5A5 5 0 0111 3.5M11 3.5V1M11 3.5H8.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              VERIFY ANOTHER
+            </button>
+            <button class="pub-action-btn solid" id="pubShareBtn" onclick="pubShare()">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="display:inline;vertical-align:-1px;margin-right:5px"><circle cx="10.5" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="10.5" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="2.5" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 6l5.5-3M4 7l5.5 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              COPY RESULT
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /pub-card-body -->
+    </div><!-- /pub-verify-card -->
+
+    <div class="pub-footer-note">No documents are transmitted · All hashing is local · ChainVerify © 2025</div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <div class="toast-dot" id="toastDot"></div>
+  <span id="toastMsg"></span>
+</div>
+
+<script src="js/db.js"></script>
+<script src="js/app.js"></script>
+<script src="js/motion.js?v=3"></script>
+</body>
+</html>
